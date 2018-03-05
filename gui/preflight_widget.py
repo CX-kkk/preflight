@@ -2,23 +2,24 @@
 import os
 import sys
 
-from BQt import QtCore, QtWidgets, uic, QtGui
+from Qt import QtCore, QtWidgets, _loadUi, QtGui
 
-from step.mdl.check_a import CheckA
-from step.mdl.check_b import CheckB
+from check.mdl.check_a import CheckA
+from check.mdl.check_b import CheckB
+
 
 
 class PreflightItem(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(PreflightItem, self).__init__(parent)
-        self.iconPath = '/local/bfx_extend_maya/common/bfx_maya/toolset/rig/skinClusterLibrary/icon'
+        self.iconPath = '//hzpipeline/app_config/release/hz_resources/icon'
 
     def preflight_item(self, label, func_a, func_b, func_c):
         def create_button(func):
             button = QtWidgets.QPushButton()
             button.setMaximumSize(QtCore.QSize(25, 25))
             icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap(os.path.join(self.iconPath, 'icon_link.png')), QtGui.QIcon.Normal,
+            icon.addPixmap(QtGui.QPixmap(os.path.join(self.iconPath, 'ic_airplay_black_24dp.png')), QtGui.QIcon.Normal,
                            QtGui.QIcon.On)
             button.setIcon(icon)
             button.setFlat(True)
@@ -64,7 +65,7 @@ class PreflightWidget(PreflightItem):
     def __init__(self, parent=None):
         super(PreflightWidget, self).__init__(parent)
         ui_file = os.path.join(os.path.dirname(__file__), 'preflight.ui')
-        uic.loadUi(ui_file, self)
+        _loadUi(ui_file, self)
 
         self.init_layout()
 
