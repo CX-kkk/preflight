@@ -11,6 +11,9 @@ from check.mdl.check_b import CheckB
 
 
 class PreflightItem(QtWidgets.QWidget):
+    """
+    widget for preflight item
+    """
     def __init__(self, parent=None):
         super(PreflightItem, self).__init__(parent)
         self.iconPath = HZResources.get_icon_resources('ic_airplay_black_24dp.png')
@@ -50,10 +53,7 @@ class PreflightItem(QtWidgets.QWidget):
         return widget
 
     def func_a(self, func=None):
-        if func:
-            func()
-        else:
-            print 'aaa'
+        print 'aaa'
 
     def func_b(self):
         pass
