@@ -3,6 +3,7 @@ import os
 import sys
 
 from Qt import QtCore, QtWidgets, _loadUi, QtGui
+from hz.resources import HZResources
 
 from check.mdl.check_a import CheckA
 from check.mdl.check_b import CheckB
@@ -12,18 +13,18 @@ from check.mdl.check_b import CheckB
 class PreflightItem(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(PreflightItem, self).__init__(parent)
-        self.iconPath = '//hzpipeline/app_config/release/hz_resources/icon'
+        self.iconPath = HZResources.get_icon_resources('ic_airplay_black_24dp.png')
+
 
     def preflight_item(self, label, func_a, func_b, func_c):
         def create_button(func):
             button = QtWidgets.QPushButton()
             button.setMaximumSize(QtCore.QSize(25, 25))
             icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap(os.path.join(self.iconPath, 'ic_airplay_black_24dp.png')), QtGui.QIcon.Normal,
+            icon.addPixmap(QtGui.QPixmap(self.iconPath), QtGui.QIcon.Normal,
                            QtGui.QIcon.On)
             button.setIcon(icon)
             button.setFlat(True)
-            print func
             button.clicked.connect(func)
             return button
 
