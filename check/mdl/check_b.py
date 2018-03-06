@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-class CheckB():
+
+class CheckB(object):
     def __init__(self):
         self.name = 'check_b'
 
@@ -12,3 +13,9 @@ class CheckB():
 
     def func_c(self):
         print 'check_b_c'
+
+
+class Main(CheckB):
+    def __init__(self):
+        super(Main, self).__init__()
+        pass
