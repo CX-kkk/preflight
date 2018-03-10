@@ -7,9 +7,7 @@ from functools import partial
 from Qt import QtCore, QtWidgets, _loadUi, QtGui
 from hz.resources import HZResources
 
-from check.mdl.check_a import CheckA
-from check.mdl.check_b import CheckB
-
+import basic_gui
 
 
 class PreflightItem(QtWidgets.QWidget):
@@ -17,7 +15,7 @@ class PreflightItem(QtWidgets.QWidget):
         super(PreflightItem, self).__init__(parent)
         self.iconPath = HZResources.get_icon_resources('ic_airplay_black_24dp.png')
 
-    def preflight_item(self, label, func_a, func_b, func_c):
+    def preflight_item(self, label, func_a, func_b, func_c, set_checked=True):
         def create_button(func):
             button = QtWidgets.QPushButton()
             button.setMaximumSize(QtCore.QSize(25, 25))
@@ -33,7 +31,7 @@ class PreflightItem(QtWidgets.QWidget):
 
         checkbox_name = QtWidgets.QCheckBox()
         checkbox_name.setText(label)
-        checkbox_name.setChecked(True)
+        checkbox_name.setChecked(set_checked)
 
         spaceritem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
 
@@ -65,26 +63,32 @@ class PreflightWidget(PreflightItem):
         ui_file = os.path.join(os.path.dirname(__file__), 'preflight_widget.ui')
         _loadUi(ui_file, self)
         self.step = step
+        self.init_ui()
         self.init_layout()
 
+    def init_ui(self):
+        self.listWidget_preflight = basic_gui.ListWidget()
+
     def init_layout(self):
-        step_module = importlib.import_module('check.{}'.format(self.step))
+        self.verticalLayout_preflight.addWidget(self.listWidget_preflight)
+        step_module = importlib.import_module('check.{}.preflight'.format(self.step))
         for item in dir(step_module):
             if item not in ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__path__']:
-                module = importlib.import_module('check.{}.{}'.format(self.step, item))
+                module = importlib.import_module('check.{}.preflight.{}'.format(self.step, item))
                 instance = module.Main()
-                self.verticalLayout_preflight.addWidget(self.preflight_item(instance.name,
-                                                                            partial(self.func_a, instance.func_a),
-                                                                            instance.func_b, instance.func_c))
+                self.listWidget_preflight.add_item(self.preflight_item(instance.name,
+                                                                       partial(self.func_a, instance.func_a),
+                                                                       instance.func_b, instance.func_c,
+                                                                       set_checked=False))
 
     def func_a(self, func=None):
         if func:
             func()
         else:
-            print 'aaa'
+            print 'Please link a function first.'
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     step = 'mdl'
     aa = PreflightWidget(step=step)

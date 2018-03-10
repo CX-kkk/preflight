@@ -6,45 +6,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>457</width>
-    <height>309</height>
+    <width>501</width>
+    <height>257</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="QToolButton" name="pushBtn_preflight">
+  <layout class="QGridLayout" name="gridLayout" rowstretch="0,10">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Preflight</string>
-     </property>
-     <property name="toolButtonStyle">
-      <enum>Qt::ToolButtonTextBesideIcon</enum>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
-     </property>
-     <property name="arrowType">
-      <enum>Qt::DownArrow</enum>
+      <string> Preflight</string>
      </property>
     </widget>
    </item>
-   <item>
+   <item row="1" column="0" colspan="2">
     <layout class="QVBoxLayout" name="verticalLayout_preflight"/>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>264</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>
