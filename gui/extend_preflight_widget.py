@@ -15,17 +15,17 @@ class PreflightItem(QtWidgets.QWidget):
         super(PreflightItem, self).__init__(parent)
         self.iconPath = HZResources.get_icon_resources('ic_airplay_black_24dp.png')
 
-    def preflight_item(self, label, func_a, func_b, func_c, set_checked=True):
-        def create_button(func):
-            button = QtWidgets.QPushButton()
-            button.setMaximumSize(QtCore.QSize(25, 25))
-            icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap(self.iconPath), QtGui.QIcon.Normal, QtGui.QIcon.On)
-            button.setIcon(icon)
-            button.setFlat(True)
-            button.clicked.connect(func)
-            return button
+    def create_button(self, func, button):
+        button.setMaximumSize(QtCore.QSize(25, 25))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(self.iconPath), QtGui.QIcon.Normal,
+                       QtGui.QIcon.On)
+        button.setIcon(icon)
+        button.setFlat(True)
+        button.clicked.connect(partial(func))
+        return button
 
+    def preflight_item(self, label, func_check, func_fix, func_c, set_checked=True):
         widget = QtWidgets.QWidget()
         horizontal_layout = QtWidgets.QHBoxLayout(widget)
 
@@ -35,9 +35,9 @@ class PreflightItem(QtWidgets.QWidget):
 
         spaceritem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
 
-        pushbutton_a = create_button(func_a)
-        pushbutton_b = create_button(func_b)
-        pushbutton_c = create_button(func_c)
+        pushbutton_a = self.create_button(func_check, self.button_a)
+        pushbutton_b = self.create_button(func_fix, self.button_b)
+        pushbutton_c = self.create_button(func_c, self.button_c)
 
         horizontal_layout.addWidget(checkbox_name)
         horizontal_layout.addItem(spaceritem)
@@ -47,10 +47,10 @@ class PreflightItem(QtWidgets.QWidget):
 
         return widget
 
-    def func_a(self, func=None):
+    def func_check(self):
         pass
 
-    def func_b(self):
+    def func_fix(self):
         pass
 
     def func_c(self):
@@ -76,12 +76,18 @@ class PreflightWidget(PreflightItem):
             if item not in ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__path__']:
                 module = importlib.import_module('check.{}.preflight.{}'.format(self.step, item))
                 instance = module.Main()
-                self.listWidget_preflight.add_item(self.preflight_item(instance.name,
-                                                                       partial(self.func_a, instance.func_a),
-                                                                       instance.func_b, instance.func_c,
-                                                                       set_checked=False))
 
-    def func_a(self, func=None):
+                self.button_a = QtWidgets.QPushButton()
+                self.button_b = QtWidgets.QPushButton()
+                self.button_c = QtWidgets.QPushButton()
+                temp = self.preflight_item(instance.name,
+                                           partial(self.func_check, partial(instance.func_check, self.button_a)),
+                                           partial(instance.func_fix, self.button_b),
+                                           partial(instance.func_c, self.button_c),
+                                           set_checked=False)
+                self.listWidget_preflight.add_item(temp, metadata=instance.name)
+
+    def func_check(self, func=None):
         if func:
             func()
         else:
