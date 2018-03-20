@@ -5,6 +5,7 @@ import importlib
 from functools import partial
 
 from Qt import QtCore, QtWidgets, _loadUi, QtGui
+from hz.resources import HZResources
 
 import basic_gui
 
