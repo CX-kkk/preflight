@@ -22,20 +22,22 @@ class CheckE(object):
                            QtGui.QIcon.On)
         button.setIcon(icon)
 
-    def func_check(self, button=None):
+    def func_check(self):
         extra_shaders = ['aa']
-        self.change_icon(button, extra_shaders)
+        self.change_icon(self.button_check, extra_shaders)
 
-    def func_fix(self, button=None):
+    def func_fix(self):
         extra_shaders = ['aa']
-        self.change_icon(button, extra_shaders)
+        self.change_icon(self.button_fix, extra_shaders)
 
-    def func_c(self, button=None):
+    def func_c(self):
         extra_shaders = ['aa']
-        self.change_icon(button, extra_shaders)
+        self.change_icon(self.button_c, extra_shaders)
 
 
 class Main(CheckE):
-    def __init__(self):
+    def __init__(self, *args):
         super(Main, self).__init__()
-        pass
+        self.button_check = args[0]
+        self.button_fix = args[1]
+        self.button_c = args[2]

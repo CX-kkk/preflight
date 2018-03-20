@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+
+ROOT = 'master|MOD|High_GEO'
+
+CAM_NODE = "|CAM"
+
+LAYOUT_NODE = "|LAY"
+STATIC_LAYOUT_NODE = "|LAY|geo"
+DYNAMIC_LAYOUT_NODE = "|LAY|char"
+TRACKER_POINT_NODE = "|LAY|misc"
+
+ASSET_NODE = "|ASSET"
+CHR_NODE = "|ASSET|CHR"
+ENV_NODE = "|ASSET|ENV"
+PROP_NODE = "|ASSET|PRP"
+VEH_NODE = "|ASSET|VEH"

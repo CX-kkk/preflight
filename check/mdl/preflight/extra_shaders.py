@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-# import pymel.core as pm
 import os
 
 from Qt import QtCore, QtWidgets, _loadUi, QtGui
+import pymel.core as pm
+import maya.mel as mel
 
 from hz.resources import HZResources
+
 
 
 class ExtraShdersInMdl(object):
@@ -23,24 +25,39 @@ class ExtraShdersInMdl(object):
                            QtGui.QIcon.On)
         button.setIcon(icon)
 
-    def func_check(self, button=None):
-        # shaders = pm.ls(mat=True)
-        # default_shaders = [pm.PyNode(u'lambert1'), pm.PyNode(u'particleCloud1')]
-        # extra_shaders = list( set(shaders)-set(default_shaders) )
-        extra_shaders = ['aa']
-        self.change_icon(button, extra_shaders)
-
-
-    def func_fix(self, button=None):
-        extra_shaders = ['aa']
-        self.change_icon(button, extra_shaders)
-
-    def func_c(self, button=None):
+    @staticmethod
+    def get_extra_shaders():
+        shaders = pm.ls(mat=True)
+        default_shaders = [pm.PyNode(u'lambert1'), pm.PyNode(u'particleCloud1')]
         extra_shaders = []
-        self.change_icon(button, extra_shaders)
+        for shader in list(set(shaders) - set(default_shaders)):
+            for sg in shader.listConnections(type='shadingEngine'):
+                if not sg.listConnections(type='mesh'):
+                    extra_shaders.append(shader)
+        return extra_shaders
+
+
 
 
 class Main(ExtraShdersInMdl):
-    def __init__(self):
+    def __init__(self, *args):
         super(Main, self).__init__()
+        self.button_check = args[0]
+        self.button_fix = args[1]
+        self.button_c = args[2]
+
+        self.button_c.setEnabled(False)
+
+    def func_check(self):
+        extra_shaders = self.get_extra_shaders()
+        self.change_icon(self.button_check, extra_shaders)
+
+    def func_fix(self):
+        mel.eval('MLdeleteUnused')
+        extra_shaders = self.get_extra_shaders()
+        if extra_shaders:
+            print 'Check if referenced shaders inside.'
+        self.change_icon(self.button_fix, extra_shaders)
+
+    def func_c(self):
         pass

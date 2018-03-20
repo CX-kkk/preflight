@@ -5,7 +5,6 @@ import importlib
 from functools import partial
 
 from Qt import QtCore, QtWidgets, _loadUi, QtGui
-from hz.resources import HZResources
 
 import basic_gui
 
@@ -80,11 +79,12 @@ class PreflightWidget(PreflightItem):
                 self.button_a = QtWidgets.QPushButton()
                 self.button_b = QtWidgets.QPushButton()
                 self.button_c = QtWidgets.QPushButton()
+                instance = module.Main(self.button_a, self.button_b, self.button_c)
                 temp = self.preflight_item(instance.name,
-                                           partial(self.func_check, partial(instance.func_check, self.button_a)),
-                                           partial(instance.func_fix, self.button_b),
-                                           partial(instance.func_c, self.button_c),
-                                           set_checked=False)
+                                           partial(self.func_check,instance.func_check),
+                                           instance.func_fix,
+                                           instance.func_c,
+                                           set_checked=True)
                 self.listWidget_preflight.add_item(temp, metadata=instance.name)
 
     def func_check(self, func=None):
