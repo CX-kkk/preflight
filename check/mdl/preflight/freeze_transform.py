@@ -2,10 +2,9 @@
 import os
 
 from Qt import QtCore, QtWidgets, _loadUi, QtGui
-
-from hz.resources import HZResources
 import pymel.core as pm
 
+from hz.resources import HZResources
 from config import config
 
 
