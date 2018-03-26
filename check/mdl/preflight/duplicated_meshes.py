@@ -80,11 +80,6 @@ class DuplicatedMeshes(object):
 class Main(DuplicatedMeshes):
     def __init__(self, *args):
         super(Main, self).__init__()
-        print
-        print
-        print '-------------', args
-        print
-        print
         self.button_check = args[0]
         self.button_fix = args[1]
         self.button_c = args[2]
