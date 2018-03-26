@@ -4,6 +4,7 @@ import os
 from Qt import QtCore, QtWidgets, _loadUi, QtGui
 import pymel.core as pm
 import maya.mel as mel
+import maya.api.OpenMaya as om
 
 from hz.resources import HZResources
 
@@ -50,13 +51,18 @@ class Main(ExtraShdersInMdl):
 
     def func_check(self):
         extra_shaders = self.get_extra_shaders()
+        if not extra_shaders:
+            self.button_fix.setEnabled(False)
+        else:
+            self.button_fix.setEnabled(True)
         self.change_icon(self.button_check, extra_shaders)
 
     def func_fix(self):
         mel.eval('MLdeleteUnused')
         extra_shaders = self.get_extra_shaders()
         if extra_shaders:
-            print 'Check if referenced shaders inside.'
+            om.MGlobal.displayWarning('Check if referenced shaders inside.')
+        self.change_icon(self.button_check, extra_shaders)
         self.change_icon(self.button_fix, extra_shaders)
 
     def func_c(self):

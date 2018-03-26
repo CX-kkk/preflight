@@ -11,7 +11,7 @@ from extend_pub_widget import PubWidget
 from gui import basic_gui
 
 
-class PreviewWidget(QtWidgets.QMainWindow):
+class PreviewWidget(QtWidgets.QWidget):
     def __init__(self, parent=None, step=''):
         super(PreviewWidget, self).__init__(parent)
 
@@ -41,8 +41,24 @@ class PreviewWidget(QtWidgets.QMainWindow):
         self.verticalLayout_publish.addWidget(self.listWidget_pub)
 
     def init_connectiond(self):
-        # self.pushButton_publish.clicked.connect(self.to_publish)
+        self.pushButton_publish.clicked.connect(self.to_publish)
         self.pushButton_cancle.clicked.connect(self.close)
+
+    def to_publish(self):
+        # print self.preflight_widget.findChildren()
+        if self.pub_widget.checkBox_preflight.isChecked():
+            print 'preflight'
+            for child in self.preflight_widget.listWidget_preflight.data:
+                print '--------------------'
+                print child, dir(child)
+                for cb in child.widget.children():
+                    if isinstance(cb, QtWidgets.QCheckBox):
+                        print cb.isChecked()
+                        print cb.objectName()
+        if self.pub_widget.checkBox_source_file.isChecked():
+            print 'save maya file'
+        # if self.extend_pub_widget.checkBox_export_json.isChecked():
+        #     print 'export json file'
 
 
 if __name__=='__main__':

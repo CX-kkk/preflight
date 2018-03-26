@@ -15,22 +15,25 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QCheckBox" name="checkBox_preflight">
      <property name="text">
       <string>Preflight before publish</string>
      </property>
      <property name="checked">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QCheckBox" name="checkBox_2">
+    <widget class="QCheckBox" name="checkBox_source_file">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>Export source file</string>
      </property>
      <property name="checked">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
     </widget>
    </item>

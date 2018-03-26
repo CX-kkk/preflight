@@ -29,9 +29,10 @@ class PreflightItem(QtWidgets.QWidget):
         widget = QtWidgets.QWidget()
         horizontal_layout = QtWidgets.QHBoxLayout(widget)
 
-        checkbox_name = QtWidgets.QCheckBox()
-        checkbox_name.setText(label)
-        checkbox_name.setChecked(set_checked)
+        self.checkbox_name = QtWidgets.QCheckBox()
+        self.checkbox_name.setText(label)
+        self.checkbox_name.setObjectName(label)
+        self.checkbox_name.setChecked(set_checked)
 
         spaceritem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
 
@@ -39,7 +40,7 @@ class PreflightItem(QtWidgets.QWidget):
         pushbutton_b = self.create_button(func_fix, self.button_b)
         pushbutton_c = self.create_button(func_c, self.button_c)
 
-        horizontal_layout.addWidget(checkbox_name)
+        horizontal_layout.addWidget(self.checkbox_name)
         horizontal_layout.addItem(spaceritem)
         horizontal_layout.addWidget(pushbutton_a)
         horizontal_layout.addWidget(pushbutton_b)
@@ -75,7 +76,7 @@ class PreflightWidget(PreflightItem):
         for item in dir(step_module):
             if item not in ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__path__']:
                 module = importlib.import_module('check.{}.preflight.{}'.format(self.step, item))
-                instance = module.Main()
+                # instance = module.Main()
 
                 self.button_a = QtWidgets.QPushButton()
                 self.button_b = QtWidgets.QPushButton()

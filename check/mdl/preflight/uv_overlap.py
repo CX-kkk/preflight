@@ -8,6 +8,7 @@ import maya.api.OpenMaya as om
 import pymel.core as pm
 
 from config import config
+from herirachy_checking import HerirachyChecking
 
 
 class UVOverlap(object):
@@ -224,7 +225,7 @@ class UVOverlap(object):
             for trans in grp:
                 if pm.listRelatives(trans, s=True):
                     for mesh in pm.listRelatives(trans, s=True):
-                        faces = self.get_overlap_uv_faces(mesh.nodeName())
+                        faces = self.get_overlap_uv_faces(mesh.fullPath())
                         overlap_list.extend(faces)
                 else:
                     children = pm.listRelatives(trans)
@@ -232,7 +233,14 @@ class UVOverlap(object):
                     overlap_list.extend(temp)
             return list(set(overlap_list))
 
-        grp = [pm.PyNode(config.ROOT)]
+        herirachy_checking = HerirachyChecking()
+        herirachy_checking.asset_filter()
+        print
+        print
+        print herirachy_checking.mod
+        print
+        print
+        grp = [pm.PyNode(herirachy_checking.mod)]
         overlap_list = []
         overlap_meshes = get_meshes(grp, overlap_list)
         return overlap_meshes
@@ -249,13 +257,16 @@ class Main(UVOverlap):
         self.button_c.setEnabled(False)
 
     def func_check(self):
-        overlap_meshes = self.get_overlap_meshes()
-        self.change_icon(self.button_check, overlap_meshes)
+        self.overlap_meshes = self.get_overlap_meshes()
+        self.change_icon(self.button_check, self.overlap_meshes)
+        self.button_fix.setEnabled(bool(self.overlap_meshes))
 
     def func_fix(self):
         # extra_shaders = ['aa']
         # self.change_icon(button, extra_shaders)
-        print 'Please fixed it manully'
+        if self.overlap_meshes:
+            print self.overlap_meshes
+            om.MGlobal.displayWarning('Please fixed it manully.[Please check overlap faces in script editor.]')
 
     def func_c(self):
         pass
