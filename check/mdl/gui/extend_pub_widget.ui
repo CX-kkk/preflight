@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>531</width>
-    <height>108</height>
+    <height>33</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="4" column="0">
+   <item row="1" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -28,39 +28,6 @@
     </spacer>
    </item>
    <item row="0" column="0">
-    <widget class="QCheckBox" name="checkBox_export_json">
-     <property name="text">
-      <string>Export mdl json</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QCheckBox" name="checkBox_2">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>excute b</string>
-     </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QCheckBox" name="checkBox_3">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>excute c</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
     <widget class="QWidget" name="widget_cache" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="margin">
