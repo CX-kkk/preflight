@@ -1,0 +1,11 @@
+import sys, importlib
+
+path = '/local/preflight'
+sys.path.insert(0, path)
+
+
+
+step = 'tex'
+step_module = importlib.import_module('step.{}.core.main'.format(step))
+aa = step_module.PrublishWidget(step=step)
+aa.show()
