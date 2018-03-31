@@ -11,13 +11,14 @@ from utils.export_shading_group import export_shader_json
 from check.mdl.preflight.herirachy_checking import HerirachyChecking
 from core.general_alembic import batch_export_alembic
 from core.basci_alembic import ExportAlembic
+import config
 
 
 class PrublishWidget(PreviewWidget):
     def __init__(self, parent=None, step=''):
         self.step = step
         super(PrublishWidget, self).__init__(parent, self.step)
-        self.path = 'D:/dev/jojo/temp_test/temp'
+        self.path = config.EXPORT_PATH
 
     def export_abc_cache(self):
         print 'export_abc_cache'

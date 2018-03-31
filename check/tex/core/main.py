@@ -12,13 +12,14 @@ from check.mdl.preflight.herirachy_checking import HerirachyChecking
 from core.general_alembic import batch_export_alembic
 from core.basci_alembic import ExportAlembic
 from check.tex.core.export_shaders import export_shaders
+import config
 
 
 class PrublishWidget(PreviewWidget):
     def __init__(self, parent=None, step=''):
         self.step = step
         super(PrublishWidget, self).__init__(parent, self.step)
-        self.path = 'D:/dev/jojo/temp_test/temp'
+        self.path = config.EXPORT_PATH
 
     def export_shading_json(self):
         export_shader_json(os.path.join(self.path, 'shader_tex.json'))

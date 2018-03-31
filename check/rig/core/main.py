@@ -12,6 +12,7 @@ from check.mdl.preflight.herirachy_checking import HerirachyChecking
 from core.general_alembic import batch_export_alembic
 from core.basci_alembic import ExportAlembic
 from check.tex.core.export_shaders import export_shaders
+import config
 
 
 class PrublishWidget(PreviewWidget):
@@ -21,7 +22,7 @@ class PrublishWidget(PreviewWidget):
         self.pub_widget.checkBox_source_file.setEnabled(True)
         self.pub_widget.checkBox_source_file.setChecked(True)
         self.pub_widget.checkBox_source_file.setText('Export Rigging file')
-        self.path = 'D:/dev/jojo/temp_test/temp'
+        self.path = config.EXPORT_PATH
 
 
     def to_publish(self):

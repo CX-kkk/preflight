@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+EXPORT_PATH = 'D:/dev/jojo/temp_test/temp'
 ROOT = 'master|MOD|High_GEO'
 
 CAM_NODE = "|CAM"
