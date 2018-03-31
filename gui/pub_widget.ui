@@ -16,6 +16,9 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QCheckBox" name="checkBox_preflight">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>Preflight before publish</string>
      </property>

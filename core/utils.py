@@ -9,6 +9,10 @@ from maya import cmds as mc
 from pymel import core as pm
 import maya.OpenMaya as OpenMaya
 
+def save_maya_file(export_path):
+    workspace = pm.system.saveFile(force=True)
+    if export_path:
+        workspace.copyfile(os.path.join(export_path, workspace.basename()))
 
 def maya_version():
     return OpenMaya.MGlobal.mayaVersion()

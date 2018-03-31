@@ -9,6 +9,7 @@ from Qt import QtCore, QtWidgets, _loadUi, QtGui
 from extend_preflight_widget import PreflightWidget
 from extend_pub_widget import PubWidget
 from gui import basic_gui
+from core.utils import save_maya_file
 
 
 class PreviewWidget(QtWidgets.QWidget):
@@ -56,7 +57,9 @@ class PreviewWidget(QtWidgets.QWidget):
                         print cb.isChecked()
                         print cb.objectName()
         if self.pub_widget.checkBox_source_file.isChecked():
-            print 'save maya file'
+            # TODO: get export path
+            export_path = 'D:/dev/jojo/temp_test/temp'
+            save_maya_file(export_path)
         # if self.extend_pub_widget.checkBox_export_json.isChecked():
         #     print 'export json file'
 
