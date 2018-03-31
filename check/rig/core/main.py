@@ -20,6 +20,7 @@ class PrublishWidget(PreviewWidget):
         super(PrublishWidget, self).__init__(parent, self.step)
         self.pub_widget.checkBox_source_file.setEnabled(True)
         self.pub_widget.checkBox_source_file.setChecked(True)
+        self.pub_widget.checkBox_source_file.setText('Export Rigging file')
         self.path = 'D:/dev/jojo/temp_test/temp'
 
 
