@@ -6,6 +6,7 @@ from Qt import QtCore, QtWidgets, _loadUi, QtGui
 from hz.resources import HZResources
 import pymel.core as pm
 import maya.api.OpenMaya as om
+from config import config
 
 
 class HerirachyChecking(object):
@@ -36,7 +37,7 @@ class HerirachyChecking(object):
                 temp_lods = mod[0].listRelatives(f=True)
                 for lod in temp_lods:
                     if lod.listRelatives():
-                        if lod.fullPath().split('_')[-1].upper() in ['HIGH', 'LOW', 'MID']:
+                        if lod.fullPath().split('_')[-1].upper() in config.LOD_LIST:
                             if lod.rsplit('_', 1)[-1].upper() == 'HIGH':
                                 self.high_geo = lod
                                 self.mod = lod.fullPath().split('|')[2]

@@ -12,7 +12,8 @@ from check.mdl.preflight.herirachy_checking import HerirachyChecking
 from core.general_alembic import batch_export_alembic
 from core.basci_alembic import ExportAlembic
 from check.tex.core.export_shaders import export_shaders
-import config
+from core.utils import save_maya_file
+from config import config
 
 
 class PrublishWidget(PreviewWidget):
@@ -35,7 +36,7 @@ class PrublishWidget(PreviewWidget):
         heriarchy.asset_filter()
         mod_root = heriarchy.high_geo
         abc_exporter = ExportAlembic()
-        abc_file = mod_root.rsplit('_HIGH', 1)[0]
+        abc_file = mod_root.rsplit('_{}'.format(config.HIGH_GRP), 1)[0]
         abc_path = os.path.join(self.path, '{}_tex.abc'.format(abc_file))
         batch_export_alembic(abc_exporter, abc_file, abc_path, 1, 1,
                              args={'stripNamespaces': 1, 'uvWrite': 1, 'writeVisibility': 1,
@@ -58,7 +59,20 @@ class PrublishWidget(PreviewWidget):
             self.export_vray_proxy()
 
     def to_publish(self):
-        super(PrublishWidget, self).to_publish()
+        if self.extend_pub_widget.checkBox_preflight.isChecked():
+            print 'preflight'
+            for child in self.preflight_widget.listWidget_preflight.data:
+                print '--------------------'
+                print child, dir(child)
+                for cb in child.widget.children():
+                    if isinstance(cb, QtWidgets.QCheckBox):
+                        print cb.isChecked()
+                        print cb.objectName()
+        if self.extend_pub_widget.checkBox_source_file.isChecked():
+            # TODO: get export path
+            save_maya_file(self.path)
+
+        # super(PrublishWidget, self).to_publish()
         if self.extend_pub_widget.checkBox_export_json.isChecked():
             self.export_shading_json()
         if self.extend_pub_widget.checkBox_export_shaders.isChecked():

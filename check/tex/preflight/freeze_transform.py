@@ -14,6 +14,7 @@ class FreezeTransform(object):
         self.name = 'Freeze transform'
         self.iconPath_red = HZResources.get_icon_resources('ic_build_black_24dp.png')
         self.iconPath_green = HZResources.get_icon_resources('ic_check_circle_black_24dp.png')
+        self.unfreezed_models = []
 
     def change_icon(self, button, condition=True):
         icon = QtGui.QIcon()

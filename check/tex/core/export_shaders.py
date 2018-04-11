@@ -15,5 +15,6 @@ def get_inused_shaders():
 
 def export_shaders(sg_path):
     shaders = get_inused_shaders()
-    pm.select(shaders)
-    mc.file(sg_path, op='', f=True, typ='mayaBinary', pr=True, es=True)
+    if shaders:
+        pm.select(shaders)
+        mc.file(sg_path, op='', f=True, typ='mayaBinary', pr=True, es=True)

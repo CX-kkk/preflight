@@ -14,6 +14,7 @@ class PreflightItem(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(PreflightItem, self).__init__(parent)
         self.iconPath = HZResources.get_icon_resources('ic_airplay_black_24dp.png')
+        self.buttons = {}
 
     def create_button(self, func, button):
         button.setMaximumSize(QtCore.QSize(25, 25))
