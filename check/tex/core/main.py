@@ -20,7 +20,7 @@ class PrublishWidget(PreviewWidget):
     def __init__(self, parent=None, step=''):
         self.step = step
         super(PrublishWidget, self).__init__(parent, self.step)
-        self.path = config.EXPORT_PATH
+        self.path = config.get_export_root_path(create=True)
 
     def export_shading_json(self):
         export_shader_json(os.path.join(self.path, 'shader_tex.json'))
@@ -70,7 +70,7 @@ class PrublishWidget(PreviewWidget):
                         print cb.objectName()
         if self.extend_pub_widget.checkBox_source_file.isChecked():
             # TODO: get export path
-            save_maya_file(self.path)
+            save_maya_file()
 
         # super(PrublishWidget, self).to_publish()
         if self.extend_pub_widget.checkBox_export_json.isChecked():

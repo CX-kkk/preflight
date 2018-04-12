@@ -9,8 +9,10 @@ from Qt import QtCore, QtWidgets, _loadUi, QtGui
 
 from gui.main_pub_win import PreviewWidget
 from gui import basic_gui
-from core.utils import save_maya_file
+from core.utils import save_maya_file, get_time_range_in_slider
 from config import config
+from core.general_alembic import batch_export_alembic
+from core.basci_alembic import ExportAlembic
 
 
 def get_simple_asset_dict():
@@ -31,7 +33,6 @@ class PrublishWidget(PreviewWidget):
     def __init__(self, parent=None, step=''):
         self.step = step
         super(PrublishWidget, self).__init__(parent, self.step)
-        self.path = config.EXPORT_PATH
         self.extend_layout()
 
     def extend_layout(self):
@@ -39,9 +40,27 @@ class PrublishWidget(PreviewWidget):
         self.extend_pub_widget.verticalLayout_abc.addWidget(self.listWidget_abc)
 
         assets_dict = get_simple_asset_dict()
-        for abc_name in map(lambda x: x.name(), assets_dict.keys()):
-            metadata = 'add info here'
-            self.listWidget_abc.add_item(basic_gui.MotionItem(abc_name, enable=True, abc_option=False), metadata)
+        for abc in assets_dict.keys():
+            metadata = {'asset_name': abc, 'abc_root': assets_dict[abc]}
+            self.listWidget_abc.add_item(basic_gui.MotionItem(abc.name(), enable=True, abc_option=False), metadata)
+
+    def export_abc_cache(self):
+        print 'export_abc_cache'
+        abc_exporter = ExportAlembic()
+        for each in self.listWidget_abc:
+            print
+            print 'Caching alembic for {}.'.format(each.metadata['asset_name'].name())
+            print
+            abc_file = each.metadata['asset_name'].name().replace(':', '_')
+            self.path = config.get_export_root_path(create=False)
+            abc_path = os.path.join(self.path, '{}.abc'.format(abc_file))
+            abc_root = each.metadata['abc_root'].name()
+            start_frame, end_frame = get_time_range_in_slider()
+            batch_export_alembic(abc_exporter, abc_root, abc_path, start_frame, end_frame,
+                                 args={'stripNamespaces': 1, 'uvWrite': 1, 'writeVisibility': 1,
+                                       'writeFaceSets': 1, 'worldSpace': 1, 'eulerFilter': 1,
+                                       'step': 0.5})
+        abc_exporter.batchRun()
 
     def to_publish(self):
         if self.extend_pub_widget.checkBox_preflight.isChecked():
@@ -53,12 +72,17 @@ class PrublishWidget(PreviewWidget):
                         print cb.objectName()
         if self.extend_pub_widget.checkBox_source_file.isChecked():
             # TODO: get export path
-            save_maya_file(self.path)
+            save_maya_file()
+
+        if self.extend_pub_widget.checkBox_export_abc.isChecked():
+            print 'Starting cache alembic...'
+            self.export_abc_cache()
+            print 'Alembic caches done!'
 
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    step = 'ani'
+    step = 'amin'
     aa = PrublishWidget(step=step)
     aa.show()
     sys.exit(app.exec_())

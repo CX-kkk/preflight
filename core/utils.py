@@ -8,15 +8,24 @@ from contextlib import contextmanager
 from maya import cmds as mc
 from pymel import core as pm
 import maya.OpenMaya as OpenMaya
+from hz.naming_api import NamingAPI
 
-def save_maya_file(export_path):
-    workspace = pm.system.saveFile(force=True)
-    if export_path:
-        workspace.copyfile(os.path.join(export_path, workspace.basename()))
+def save_maya_file(export_path=None):
+    file_path = pm.system.saveFile(force=True)
+    naming = NamingAPI.parser(file_path)
+    export_source_path = export_path if export_path else naming.get_publish_full_path()
+    root_path = os.path.dirname(export_source_path)
+    if not os.path.exists(root_path):
+        os.makedirs(root_path)
+    file_path.copyfile(export_source_path)
 
 def maya_version():
     return OpenMaya.MGlobal.mayaVersion()
 
+def get_time_range_in_slider():
+    start_frame = pm.playbackOptions(minTime=True, query=True)
+    end_frame = pm.playbackOptions(maxTime=True, query=True)
+    return start_frame, end_frame
 
 def api_version():
     return OpenMaya.MGlobal.apiVersion()

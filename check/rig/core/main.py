@@ -17,7 +17,7 @@ class PrublishWidget(PreviewWidget):
         # self.pub_widget.checkBox_source_file.setEnabled(True)
         # self.pub_widget.checkBox_source_file.setChecked(True)
         # self.pub_widget.checkBox_source_file.setText('Export Rigging file')
-        self.path = config.EXPORT_PATH
+        self.path = config.get_export_root_path(create=True)
 
 
     def to_publish(self):
@@ -32,7 +32,7 @@ class PrublishWidget(PreviewWidget):
                         print cb.objectName()
         if self.extend_pub_widget.checkBox_source_file.isChecked():
             # TODO: get export path
-            save_maya_file(self.path)
+            save_maya_file()
         # super(PrublishWidget, self).to_publish()
 
 

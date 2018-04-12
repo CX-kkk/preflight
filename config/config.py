@@ -1,6 +1,17 @@
 # -*- coding: utf-8 -*-
+import os
+from hz.naming_api import NamingAPI
 
-EXPORT_PATH = 'D:/dev/jojo/temp_test/temp'
+def get_export_root_path(create=False):
+    import pymel.core as pm
+    file_path = pm.sceneName()
+    naming = NamingAPI.parser(file_path)
+    export_source_path = naming.get_publish_full_path()
+    # 'D:/dev/jojo/temp_test/temp'
+    export_root_path = os.path.dirname(export_source_path)
+    if create:
+        os.makedirs(export_root_path)
+    return export_root_path
 # ROOT = 'master|MOD|High_GEO'
 HIGH_GRP = 'HIGH'
 MID_GRP = 'LOW'

@@ -4,6 +4,7 @@ import sys
 
 from Qt import QtCore, QtWidgets, _loadUi, QtGui
 from hz.resources import HZResources
+from hz.awesome_ui.widgets import RenderAwesomeUI
 
 
 
@@ -11,7 +12,8 @@ class ExtendPubWidget(QtWidgets.QWidget):
     def __init__(self, parent=None, step=''):
         super(ExtendPubWidget, self).__init__(parent)
         ui_file = os.path.join(os.path.dirname(__file__), 'extend_pub_widget.ui')
-        _loadUi(ui_file, self)
+        # _loadUi(ui_file, self)
+        RenderAwesomeUI(ui_file, self)
         self.step = step
         self.checkBox_source_file.setEnabled(True)
         self.checkBox_source_file.setChecked(True)

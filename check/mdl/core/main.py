@@ -2,24 +2,23 @@
 import importlib
 import os
 import sys
+from Qt import QtCore, QtWidgets
 from functools import partial
 
-from Qt import QtCore, QtWidgets, _loadUi, QtGui
-
+from check.mdl.preflight.herirachy_checking import HerirachyChecking
+from config import config
+from core.basci_alembic import ExportAlembic
+from core.general_alembic import batch_export_alembic
+from core.utils import save_maya_file
 from gui.main_pub_win import PreviewWidget
 from utils.export_shading_group import export_shader_json
-from check.mdl.preflight.herirachy_checking import HerirachyChecking
-from core.general_alembic import batch_export_alembic
-from core.basci_alembic import ExportAlembic
-from core.utils import save_maya_file
-from config import config
 
 
 class PrublishWidget(PreviewWidget):
     def __init__(self, parent=None, step=''):
         self.step = step
         super(PrublishWidget, self).__init__(parent, self.step)
-        self.path = config.EXPORT_PATH
+        self.path = config.get_export_root_path(create=True)
 
     def export_abc_cache(self):
         print 'export_abc_cache'
@@ -60,8 +59,7 @@ class PrublishWidget(PreviewWidget):
                         print cb.isChecked()
                         print cb.objectName()
         if self.extend_pub_widget.checkBox_source_file.isChecked():
-            # TODO: get export path
-            save_maya_file(self.path)
+            save_maya_file()
         # super(PrublishWidget, self).to_publish()
         for cache_option in self.extend_pub_widget.widget_cache.children():
             if isinstance(cache_option, QtWidgets.QRadioButton):
