@@ -52,7 +52,7 @@ class PrublishWidget(PreviewWidget):
             print 'Caching alembic for {}.'.format(each.metadata['asset_name'].name())
             print
             abc_file = each.metadata['asset_name'].name().replace(':', '_')
-            self.path = config.get_export_root_path(create=False)
+            self.path = config.get_export_root_path(create=True)
             abc_path = os.path.join(self.path, '{}.abc'.format(abc_file))
             abc_root = each.metadata['abc_root'].name()
             start_frame, end_frame = get_time_range_in_slider()
@@ -82,7 +82,7 @@ class PrublishWidget(PreviewWidget):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    step = 'amin'
+    step = 'anim'
     aa = PrublishWidget(step=step)
     aa.show()
     sys.exit(app.exec_())

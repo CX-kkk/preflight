@@ -4,7 +4,7 @@ import maya.api.OpenMaya as om
 
 
 # call example
-# ijs = ImportJsonShader('/show/BRI/shot/z_dev/testShot/amin/work/pletest/maya/scenes/test.json')
+# ijs = ImportJsonShader('/show/BRI/shot/z_dev/testShot/anim/work/pletest/maya/scenes/test.json')
 # ijs.import_shader()
 class ImportJsonShader:
     def __init__(self, file_path):

@@ -7,7 +7,7 @@ EXPORT_USER_ATTR = True
 
 
 # call example
-# export_json('/show/BRI/shot/z_dev/testShot/amin/work/pletest/maya/scenes/test.json')
+# export_json('/show/BRI/shot/z_dev/testShot/anim/work/pletest/maya/scenes/test.json')
 class ShadingObject(object):
     @staticmethod
     def split_object_faces(mesh_face):

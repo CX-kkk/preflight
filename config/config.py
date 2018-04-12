@@ -9,7 +9,7 @@ def get_export_root_path(create=False):
     export_source_path = naming.get_publish_full_path()
     # 'D:/dev/jojo/temp_test/temp'
     export_root_path = os.path.dirname(export_source_path)
-    if create:
+    if create and not os.path.exists(export_root_path):
         os.makedirs(export_root_path)
     return export_root_path
 # ROOT = 'master|MOD|High_GEO'
