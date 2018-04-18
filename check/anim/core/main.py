@@ -42,7 +42,8 @@ class PrublishWidget(PreviewWidget):
         assets_dict = get_simple_asset_dict()
         for abc in assets_dict.keys():
             metadata = {'asset_name': abc, 'abc_root': assets_dict[abc]}
-            self.listWidget_abc.add_item(basic_gui.MotionItem(abc.name(), enable=True, abc_option=False), metadata)
+            self.listWidget_abc.add_item(basic_gui.MotionItem(abc.name(), enable=True, abc_option=False,
+                                                              vray_option=False, arnold_option=False), metadata)
 
     def export_abc_cache(self):
         print 'export_abc_cache'

@@ -49,20 +49,26 @@ class MotionItem(QtWidgets.QWidget):
     The item widget of QListWidget in motion group box.
     Used to toggle motion info exporter of each asset in layout scene.
     """
-    def __init__(self, name, enable=True, abc_option=True):
+    def __init__(self, name, enable=True, abc_option=True, vray_option=True, arnold_option=True):
         super(MotionItem, self).__init__()
 
         self.label = QtWidgets.QLabel(name)
         self.checkbox = QtWidgets.QCheckBox("Export")
 
         self.abc_box = QtWidgets.QCheckBox('Abc')
-        self.abc_box.setDisabled(True)
+        self.vray_box = QtWidgets.QCheckBox('Vray')
+        self.arnold_box = QtWidgets.QCheckBox('Arnold')
+        for each_box in [self.abc_box, self.vray_box, self.arnold_box]:
+            each_box.setDisabled(True)
         self.abc_option = abc_option
+        self.vray_option = vray_option
+        self.arnold_option = arnold_option
 
         if enable:
             self.checkbox.setChecked(True)
-            self.abc_box.setDisabled(False)
-            self.abc_box.setChecked(True)
+            for each_box in [self.abc_box, self.vray_box, self.arnold_box]:
+                each_box.setDisabled(False)
+                each_box.setChecked(True)
         else:
             self.label.setDisabled(False)
 
@@ -79,12 +85,22 @@ class MotionItem(QtWidgets.QWidget):
     def abc_checked(self):
         return self.abc_box.isChecked()
 
+    @property
+    def vray_checked(self):
+        return self.vray_box.isChecked()
+
+    @property
+    def arnold_checked(self):
+        return self.arnold_box.isChecked()
+
     def checkbox_state_changed(self):
         if self.checkbox.isChecked():
-            self.abc_box.setDisabled(False)
+            for each_box in [self.abc_box, self.vray_box, self.arnold_box]:
+                each_box.setDisabled(False)
         else:
-            self.abc_box.setDisabled(True)
-            self.abc_box.setChecked(False)
+            for each_box in [self.abc_box, self.vray_box, self.arnold_box]:
+                each_box.setDisabled(True)
+                each_box.setChecked(False)
 
     def init_ui(self):
         self.checkbox.clicked.connect(self.label.setEnabled)
@@ -96,5 +112,9 @@ class MotionItem(QtWidgets.QWidget):
         layout.addWidget(self.checkbox)
         if self.abc_option:
             layout.addWidget(self.abc_box)
+        if self.vray_option:
+            layout.addWidget(self.vray_box)
+        if self.arnold_option:
+            layout.addWidget(self.arnold_box)
 
         self.setLayout(layout)
