@@ -4,56 +4,29 @@ import os
 import sys
 from functools import partial
 
-import pymel.core as pm
 from Qt import QtCore, QtWidgets, _loadUi, QtGui
 
 from gui.main_pub_win import PreviewWidget
-from gui import basic_gui
 from core.utils import save_maya_file, get_time_range_in_slider
-from config import config
 from core.general_alembic import batch_export_alembic
 from core.basci_alembic import ExportAlembic
-
-
-def get_simple_asset_dict():
-    assets_dict = dict()
-    asset_roots = {config.CHR_NODE, config.ENV_NODE, config.PROP_NODE, config.VEH_NODE}
-    for asset_root in asset_roots:
-        if pm.objExists(asset_root):
-            for ref_root in pm.listRelatives(asset_root):
-                high_node = '{}_{}'.format(ref_root.name(), config.HIGH_GRP)
-                if pm.objExists(high_node):
-                    abc_root = pm.PyNode(high_node)
-                    assets_dict[ref_root] = abc_root
-
-    return assets_dict
+from config import config
 
 
 class PrublishWidget(PreviewWidget):
     def __init__(self, parent=None, step=''):
         self.step = step
         super(PrublishWidget, self).__init__(parent, self.step)
-        self.extend_layout()
-
-    def extend_layout(self):
-        self.listWidget_abc = basic_gui.ListWidget()
-        self.extend_pub_widget.verticalLayout_abc.addWidget(self.listWidget_abc)
-
-        assets_dict = get_simple_asset_dict()
-        for abc in assets_dict.keys():
-            metadata = {'asset_name': abc, 'abc_root': assets_dict[abc]}
-            self.listWidget_abc.add_item(basic_gui.MotionItem(abc.name(), enable=True, abc_option=False,
-                                                              vray_option=False, arnold_option=False), metadata)
+        self.path = config.get_export_root_path(create=True)
 
     def export_abc_cache(self):
         print 'export_abc_cache'
         abc_exporter = ExportAlembic()
-        for each in self.listWidget_abc:
+        for each in self.extend_pub_widget.listWidget_abc:
             print
             print 'Caching alembic for {}.'.format(each.metadata['asset_name'].name())
             print
             abc_file = each.metadata['asset_name'].name().replace(':', '_')
-            self.path = config.get_export_root_path(create=True)
             abc_path = os.path.join(self.path, '{}.abc'.format(abc_file))
             abc_root = each.metadata['abc_root'].name()
             start_frame, end_frame = get_time_range_in_slider()

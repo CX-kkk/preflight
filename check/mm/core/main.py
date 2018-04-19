@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
-import importlib
 import os
-import pymel.core as pm
 import sys
-from Qt import QtCore, QtWidgets, _loadUi, QtGui
-from functools import partial
 
-from config import config
+import pymel.core as pm
+from Qt import QtCore, QtWidgets, _loadUi, QtGui
+
 from core.basci_alembic import ExportAlembic
 from core.general_alembic import batch_export_alembic
 from core.utils import save_maya_file
 from gui.main_pub_win import PreviewWidget
+from gui import msg_box
+from config import config
 
 
 class PrublishWidget(PreviewWidget):
@@ -23,12 +23,25 @@ class PrublishWidget(PreviewWidget):
         print 'export abc cache'
         abc_exporter = ExportAlembic()
         abc_file = pm.ls(sl=True)
-        abc_path = os.path.join(self.path, 'layout.abc')
-        batch_export_alembic(abc_exporter, abc_file, abc_path, 1, 1,
-                             args={'stripNamespaces': 1, 'uvWrite': 1, 'writeVisibility': 1,
-                                   'writeFaceSets': 1, 'worldSpace': 1, 'eulerFilter': 1,
-                                   'step': 0.5})
-        abc_exporter.batchRun()
+        if len(abc_file) == 0:
+            warning_text = 'You haven\'t select any objects to export. go on?'
+            result = msg_box.show_question_box(self, 'Warning', warning_text)
+            if not result:
+                return
+        elif len(abc_file) == 1:
+            pass
+        else:
+            warning_text = 'You selected {0} objects, it\'ll gonna export {0} abc files, go on?'.format(str(len(abc_file)))
+            result = msg_box.show_question_box(self, 'Warning', warning_text)
+            if not result:
+                return
+        for each in abc_file:
+            abc_path = os.path.join(self.path, '{}.abc'.format(each.replace(':','_')))
+            batch_export_alembic(abc_exporter, each, abc_path, 1, 1,
+                                 args={'stripNamespaces': 1, 'uvWrite': 1, 'writeVisibility': 1,
+                                       'writeFaceSets': 1, 'worldSpace': 1, 'eulerFilter': 1,
+                                       'step': 0.5})
+            abc_exporter.batchRun()
 
     def export_cache(self, cache_type):
         if cache_type == 'radioButton_abc_from_selection':

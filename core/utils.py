@@ -39,6 +39,22 @@ def random_text_generator(length):
     return ''.join(random.choice(string.ascii_letters) for i in xrange(length))
 
 
+def get_all_cameras():
+    available_cam = []
+    for camera_shape in pm.ls(type='camera'):
+        camera_transform = camera_shape.getParent().longName()
+        for start_key in ["|cam|", "|camera|"]:
+            if camera_shape.getParent() not in ['front', 'persp', 'side', 'top']:
+                item = camera_shape.getParent().name()
+                if camera_transform.lower().startswith(start_key):
+                    if item not in available_cam:
+                        available_cam.insert(0, item)
+                else:
+                    if item not in available_cam:
+                        available_cam.append(item)
+    return available_cam
+
+
 def ensure_pynode(node):
     """
     The function convert node name to its entity if necessary.
