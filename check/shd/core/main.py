@@ -11,7 +11,7 @@ from utils.export_shading_group import export_shader_json
 from check.mdl.preflight.herirachy_checking import HerirachyChecking
 from core.general_alembic import batch_export_alembic
 from core.basci_alembic import ExportAlembic
-from check.tex.core.export_shaders import export_shaders
+from check.shd.core.export_shaders import export_shaders
 from core.utils import save_maya_file
 from config import config
 
@@ -85,7 +85,7 @@ class PrublishWidget(PreviewWidget):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    step = 'tex'
+    step = 'shd'
     aa = PrublishWidget(step=step)
     aa.show()
     sys.exit(app.exec_())
