@@ -10,11 +10,13 @@ def get_inused_shaders():
         sg = filter(lambda x: x.nodeType() == 'shadingEngine', shader.listConnections(d=True))[0]
         meshes = filter(lambda x: x.nodeType() == 'transform', sg.listConnections())
         if meshes:
-            inused_shaders.append(shader)
+            inused_shaders.append(sg)
     return list(set(inused_shaders))
 
 def export_shaders(sg_path):
     shaders = get_inused_shaders()
     if shaders:
-        pm.select(shaders)
-        mc.file(sg_path, op='', f=True, typ='mayaBinary', pr=True, es=True)
+        # pm.select(shaders)
+        # mc.file(sg_path, op='', f=True, typ='mayaBinary', pr=True, es=True)
+        pm.select(shaders, r=True, ne=True)
+        mc.file(sg_path, op="v=0;", typ="mayaAscii", pr=True, es=True)

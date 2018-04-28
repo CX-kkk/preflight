@@ -63,6 +63,16 @@ class PrublishWidget(PreviewWidget):
             # TODO: get export path
             save_maya_file()
 
+        if self.extend_pub_widget.checkBox_export_camera.isChecked():
+            print 'export cams'
+            current_cam = self.extend_pub_widget.comboBox_camera.currentText()
+            if current_cam and current_cam != '------None------':
+                print current_cam
+            elif current_cam == '------None------':
+                msg_box.show_message_box('BFX Playblast Warning',
+                                         u'No available camera was found in current file.'
+                                         u'当前文件中没有可用相机')
+            return
         # super(PrublishWidget, self).to_publish()
         for cache_option in self.extend_pub_widget.widget_cache.children():
             if isinstance(cache_option, QtWidgets.QRadioButton):
