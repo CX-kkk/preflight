@@ -23,12 +23,28 @@ class PrublishWidget(PreviewWidget):
         print 'export_abc_cache'
         heriarchy = HerirachyChecking()
         heriarchy.asset_filter()
-        mod_root = heriarchy.high_geo
+
         abc_exporter = ExportAlembic()
-        abc_file = mod_root.rsplit('_{}'.format(config.HIGH_GRP), 1)[0]
+        export_lod = self.extend_pub_widget.get_export_lod()
+        # Get export LOD
+        if export_lod == config.HIGH_GRP:
+            mod_root = heriarchy.high_geo
+        elif export_lod == config.MID_GRP:
+            mod_root = heriarchy.mid_geo
+        elif export_lod == config.LOW_GRP:
+            mod_root = heriarchy.low_geo
+        elif export_lod == 'all':
+            mod_root = heriarchy.high_geo.rsplit('_', 1)[0]
+        else:
+            raise Exception('Please define LOD type in config.py first')
+        # abc_file = mod_root.rsplit('_{}'.format(export_lod), 1)[0]
+        print
+        print 'Export mod_root: ', mod_root
+        print 'Export lod: ', export_lod
+        print
         self.path = config.get_export_root_path(create=True)
-        abc_path = os.path.join(self.path, '{}_mdl.abc'.format(abc_file))
-        batch_export_alembic(abc_exporter, abc_file, abc_path, 1, 1,
+        abc_path = os.path.join(self.path, '{}.abc'.format(mod_root))
+        batch_export_alembic(abc_exporter, mod_root, abc_path, 1, 1,
                              args={'stripNamespaces': 1, 'uvWrite': 1, 'writeVisibility': 1,
                                    'writeFaceSets': 1, 'worldSpace': 1, 'eulerFilter': 1,
                                    'step': 0.5})

@@ -14,6 +14,9 @@ class ExtendPubWidget(QtWidgets.QWidget):
         RenderAwesomeUI(ui_file, self)
         self.step = step
 
+    def get_export_lod(self):
+        return self.comboBox_lod.currentText()
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

@@ -89,7 +89,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_2">
+          <widget class="QComboBox" name="comboBox_lod">
            <item>
             <property name="text">
              <string>all</string>

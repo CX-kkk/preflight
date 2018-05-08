@@ -15,6 +15,8 @@ class HerirachyChecking(object):
         self.iconPath_red = HZResources.get_icon_resources('ic_build_black_24dp.png')
         self.iconPath_green = HZResources.get_icon_resources('ic_check_circle_black_24dp.png')
         self.high_geo = ''
+        self.mid_geo = ''
+        self.low_geo = ''
 
     def change_icon(self, button, condition=True):
         icon = QtGui.QIcon()
@@ -41,6 +43,10 @@ class HerirachyChecking(object):
                             if lod.rsplit('_', 1)[-1].lower() == config.HIGH_GRP:
                                 self.high_geo = lod
                                 self.mod = lod.fullPath().split('|')[2]
+                            elif lod.rsplit('_', 1)[-1].lower() == config.MID_GRP:
+                                self.mid_geo = lod
+                            elif lod.rsplit('_', 1)[-1].lower() == config.LOW_GRP:
+                                self.low_geo = lod
                             lods.append(lod.fullPath())
                         else:
                             if lod.fullPath() not in self.illegal_objs:
