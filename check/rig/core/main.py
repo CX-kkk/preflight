@@ -17,7 +17,7 @@ class PrublishWidget(PreviewWidget):
         # self.pub_widget.checkBox_source_file.setEnabled(True)
         # self.pub_widget.checkBox_source_file.setChecked(True)
         # self.pub_widget.checkBox_source_file.setText('Export Rigging file')
-        self.path = config.get_export_root_path(create=True)
+
 
 
     def to_publish(self):

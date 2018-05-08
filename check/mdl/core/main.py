@@ -18,7 +18,6 @@ class PrublishWidget(PreviewWidget):
     def __init__(self, parent=None, step=''):
         self.step = step
         super(PrublishWidget, self).__init__(parent, self.step)
-        self.path = config.get_export_root_path(create=True)
 
     def export_abc_cache(self):
         print 'export_abc_cache'
@@ -27,6 +26,7 @@ class PrublishWidget(PreviewWidget):
         mod_root = heriarchy.high_geo
         abc_exporter = ExportAlembic()
         abc_file = mod_root.rsplit('_{}'.format(config.HIGH_GRP), 1)[0]
+        self.path = config.get_export_root_path(create=True)
         abc_path = os.path.join(self.path, '{}_mdl.abc'.format(abc_file))
         batch_export_alembic(abc_exporter, abc_file, abc_path, 1, 1,
                              args={'stripNamespaces': 1, 'uvWrite': 1, 'writeVisibility': 1,
@@ -37,16 +37,11 @@ class PrublishWidget(PreviewWidget):
     def export_arnold_proxy(self):
         print 'export_arnold_proxy'
 
-    def export_vray_proxy(self):
-        print 'export_vray_proxy'
-
     def export_cache(self, cache_type):
         if cache_type == 'radioButton_abc':
             self.export_abc_cache()
         elif cache_type == 'radioButton_arnold':
             self.export_arnold_proxy()
-        elif cache_type == 'radioButton_vray':
-            self.export_vray_proxy()
 
     def to_publish(self):
         if self.extend_pub_widget.checkBox_preflight.isChecked():

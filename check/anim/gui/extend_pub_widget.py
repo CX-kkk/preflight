@@ -39,7 +39,7 @@ class ExtendPubWidget(QtWidgets.QWidget):
         for abc in assets_dict.keys():
             metadata = {'asset_name': abc, 'abc_root': assets_dict[abc]}
             self.listWidget_abc.add_item(basic_gui.MotionItem(abc.name(), enable=True, abc_option=False,
-                                                              vray_option=False, arnold_option=False), metadata)
+                                                              arnold_option=False), metadata)
 
 
 if __name__ == '__main__':

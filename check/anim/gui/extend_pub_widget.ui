@@ -63,13 +63,10 @@
        <item>
         <widget class="QCheckBox" name="checkBox_source_file">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="text">
           <string>Export source file</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
          </property>
         </widget>
        </item>

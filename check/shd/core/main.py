@@ -20,43 +20,19 @@ class PrublishWidget(PreviewWidget):
     def __init__(self, parent=None, step=''):
         self.step = step
         super(PrublishWidget, self).__init__(parent, self.step)
-        self.path = config.get_export_root_path(create=True)
+
+    def get_export_root_path(self):
+        return config.get_export_root_path(create=True)
 
     def export_shading_json(self):
-        export_shader_json(os.path.join(self.path, 'shader_tex.json'))
+        path = self.get_export_root_path()
+        export_shader_json(os.path.join(path, 'shader.json'))
 
     def export_shader_mb(self):
         print 'export shaders.'
-        sg_path = os.path.join(self.path, 'shaders_tex.mb')
+        path = self.get_export_root_path()
+        sg_path = os.path.join(path, 'shaders.mb')
         export_shaders(sg_path)
-
-    def export_abc_cache(self):
-        print 'export abc cache'
-        heriarchy = HerirachyChecking()
-        heriarchy.asset_filter()
-        mod_root = heriarchy.high_geo
-        abc_exporter = ExportAlembic()
-        abc_file = mod_root.rsplit('_{}'.format(config.HIGH_GRP), 1)[0]
-        abc_path = os.path.join(self.path, '{}_tex.abc'.format(abc_file))
-        batch_export_alembic(abc_exporter, abc_file, abc_path, 1, 1,
-                             args={'stripNamespaces': 1, 'uvWrite': 1, 'writeVisibility': 1,
-                                   'writeFaceSets': 1, 'worldSpace': 1, 'eulerFilter': 1,
-                                   'step': 0.5})
-        abc_exporter.batchRun()
-
-    def export_arnold_proxy(self):
-        print 'export_arnold_proxy'
-
-    def export_vray_proxy(self):
-        print 'export_vray_proxy'
-
-    def export_cache(self, cache_type):
-        if cache_type == 'radioButton_abc':
-            self.export_abc_cache()
-        elif cache_type == 'radioButton_arnold':
-            self.export_arnold_proxy()
-        elif cache_type == 'radioButton_vray':
-            self.export_vray_proxy()
 
     def to_publish(self):
         if self.extend_pub_widget.checkBox_preflight.isChecked():
@@ -77,10 +53,6 @@ class PrublishWidget(PreviewWidget):
             self.export_shading_json()
         if self.extend_pub_widget.checkBox_export_shaders.isChecked():
             self.export_shader_mb()
-        for cache_option in self.extend_pub_widget.widget_cache.children():
-            if isinstance(cache_option, QtWidgets.QRadioButton):
-                if cache_option.isChecked():
-                    self.export_cache(cache_option.objectName())
 
 
 if __name__ == '__main__':

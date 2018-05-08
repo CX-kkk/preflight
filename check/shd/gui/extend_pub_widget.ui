@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>624</width>
-    <height>306</height>
+    <height>126</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -94,39 +94,6 @@
          <property name="checked">
           <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QWidget" name="widget_cache" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="margin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QRadioButton" name="radioButton_abc">
-            <property name="text">
-             <string>Alembic Cache</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton_arnold">
-            <property name="text">
-             <string>Arnold Proxy</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton_vray">
-            <property name="text">
-             <string>Vray Proxy</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </widget>
        </item>
       </layout>

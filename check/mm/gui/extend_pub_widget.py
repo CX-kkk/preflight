@@ -26,6 +26,7 @@ class ExtendPubWidget(QtWidgets.QWidget):
     def abc_enable(self):
         enable = self.checkBox_export_abc.isChecked()
         self.widget_cache.setEnabled(enable)
+        self.widget_time_range.setEnabled(enable)
 
     def load_camera(self):
         cams = get_all_cameras()

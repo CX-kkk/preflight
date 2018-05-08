@@ -33,7 +33,6 @@ class PrublishWidget(PreviewWidget):
     def __init__(self, parent=None, step=''):
         self.step = step
         super(PrublishWidget, self).__init__(parent, self.step)
-        self.path = config.get_export_root_path(create=True)
         self.extend_layout()
 
     def extend_layout(self):
@@ -52,20 +51,16 @@ class PrublishWidget(PreviewWidget):
             print 'Caching alembic for {}.'.format(each.metadata['asset_name'].name())
             print
             abc_file = each.metadata['asset_name'].name().replace(':', '_')
+            self.path = config.get_export_root_path(create=True)
             abc_path = os.path.join(self.path, '{}.abc'.format(abc_file))
             abc_root = each.metadata['abc_root'].name()
-            start_frame, end_frame = get_time_range_in_slider()
+            # start_frame, end_frame = get_time_range_in_slider()
+            start_frame, end_frame = [1, 1]
             batch_export_alembic(abc_exporter, abc_root, abc_path, start_frame, end_frame,
                                  args={'stripNamespaces': 1, 'uvWrite': 1, 'writeVisibility': 1,
                                        'writeFaceSets': 1, 'worldSpace': 1, 'eulerFilter': 1,
                                        'step': 0.5})
         abc_exporter.batchRun()
-
-    def export_vray_proxy(self, vray_list):
-        for each in vray_list:
-            print
-            print 'Exporting Vray proxy for {}.'.format(each.metadata['asset_name'].name())
-            print
 
     def export_arnold_proxy(self, arnold_list):
         for each in arnold_list:
@@ -74,12 +69,10 @@ class PrublishWidget(PreviewWidget):
             print
 
     def get_caches_list(self):
-        caches_dict = {'abc':[], 'vray':[], 'arnold':[]}
+        caches_dict = {'abc': [], 'arnold': []}
         for each in self.listWidget_abc:
             if each.widget.abc_checked:
                 caches_dict['abc'].append(each)
-            if each.widget.vray_checked:
-                caches_dict['vray'].append(each)
             if each.widget.arnold_checked:
                 caches_dict['arnold'].append(each)
         return caches_dict
@@ -93,7 +86,6 @@ class PrublishWidget(PreviewWidget):
                         print cb.isChecked()
                         print cb.objectName()
         if self.extend_pub_widget.checkBox_source_file.isChecked():
-            # TODO: get export path
             save_maya_file()
 
         if self.extend_pub_widget.checkBox_export_cache.isChecked():
@@ -102,10 +94,6 @@ class PrublishWidget(PreviewWidget):
                 print 'Starting cache alembic...'
                 self.export_abc_cache(caches_dict['abc'])
                 print 'Alembic caches done!'
-            if caches_dict['vray']:
-                print 'Starting cache vray...'
-                self.export_vray_proxy(caches_dict['vray'])
-                print 'Vray proxy done!'
             if caches_dict['arnold']:
                 print 'Starting cache arnold...'
                 self.export_arnold_proxy(caches_dict['arnold'])

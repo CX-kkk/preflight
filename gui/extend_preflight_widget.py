@@ -29,6 +29,7 @@ class PreflightItem(QtWidgets.QWidget):
     def preflight_item(self, label, func_check, func_fix, func_c, set_checked=True):
         widget = QtWidgets.QWidget()
         horizontal_layout = QtWidgets.QHBoxLayout(widget)
+        widget.setStatusTip('False')
 
         self.checkbox_name = QtWidgets.QCheckBox()
         self.checkbox_name.setText(label)
@@ -84,7 +85,7 @@ class PreflightWidget(PreflightItem):
                 self.button_c = QtWidgets.QPushButton()
                 instance = module.Main(self.button_a, self.button_b, self.button_c)
                 temp = self.preflight_item(instance.name,
-                                           partial(self.func_check,instance.func_check),
+                                           partial(self.func_check, instance.func_check),
                                            instance.func_fix,
                                            instance.func_c,
                                            set_checked=True)

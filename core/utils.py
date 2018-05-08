@@ -8,9 +8,9 @@ from contextlib import contextmanager
 from maya import cmds as mc
 from pymel import core as pm
 import maya.OpenMaya as OpenMaya
-from hz.naming_api import NamingAPI
 
 def save_maya_file(export_path=None):
+    from hz.naming_api import NamingAPI
     file_path = pm.system.saveFile(force=True)
     naming = NamingAPI.parser(file_path)
     export_source_path = export_path if export_path else naming.get_publish_full_path()

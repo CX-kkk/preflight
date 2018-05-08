@@ -37,8 +37,8 @@ class HerirachyChecking(object):
                 temp_lods = mod[0].listRelatives(f=True)
                 for lod in temp_lods:
                     if lod.listRelatives():
-                        if lod.fullPath().split('_')[-1].upper() in config.LOD_LIST:
-                            if lod.rsplit('_', 1)[-1].upper() == 'HIGH':
+                        if lod.fullPath().split('_')[-1].lower() in config.LOD_LIST:
+                            if lod.rsplit('_', 1)[-1].lower() == config.HIGH_GRP:
                                 self.high_geo = lod
                                 self.mod = lod.fullPath().split('|')[2]
                             lods.append(lod.fullPath())
@@ -52,7 +52,7 @@ class HerirachyChecking(object):
         lods = self.asset_filter()
         if lods:
             for each in lods:
-                if each != '|{0}|{0}_MDL|{0}_{1}'.format(each.split('|')[1], each.rsplit('_', 1)[-1].upper()):
+                if each != '|{0}|{0}_mdl|{0}_{1}'.format(each.split('|')[1], each.rsplit('_', 1)[-1].lower()):
                     fixing_list.append(each)
         return fixing_list
 
@@ -61,10 +61,10 @@ class HerirachyChecking(object):
         if self.fixing_list:
             for each in self.fixing_list:
                 sep = each.split('|')[1:]
-                if sep[1] != '{}_MDL'.format(sep[0]):
-                    change_dic[sep[1]] = '{}_MDL'.format(sep[0])
-                if sep[2] != '{}_{}'.format(sep[0], sep[2].split('_')[-1].upper()):
-                    change_dic[sep[2]] = '{}_{}'.format(sep[0], sep[2].split('_')[-1].upper())
+                if sep[1] != '{}_mdl'.format(sep[0]):
+                    change_dic[sep[1]] = '{}_mdl'.format(sep[0])
+                if sep[2] != '{}_{}'.format(sep[0], sep[2].split('_')[-1].lower()):
+                    change_dic[sep[2]] = '{}_{}'.format(sep[0], sep[2].split('_')[-1].lower())
         for key in change_dic:
             pm.rename(key, change_dic[key])
 
