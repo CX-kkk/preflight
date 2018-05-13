@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../../hz_test/.idea/hz_test.iml" filepath="$PROJECT_DIR$/../../hz_test/.idea/hz_test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../lgt_import_tool/.idea/lgt_import_tool.iml" filepath="$PROJECT_DIR$/../../lgt_import_tool/.idea/lgt_import_tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../lgt_import_tool/.idea/lgt_import_tool.iml" filepath="$PROJECT_DIR$/../lgt_import_tool/.idea/lgt_import_tool.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/preflight.iml" filepath="$PROJECT_DIR$/.idea/preflight.iml" />
     </modules>
   </component>

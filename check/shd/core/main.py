@@ -12,7 +12,7 @@ from check.mdl.preflight.herirachy_checking import HerirachyChecking
 from core.general_alembic import batch_export_alembic
 from core.basci_alembic import ExportAlembic
 from check.shd.core.export_shaders import export_shaders
-from core.utils import save_maya_file
+from core.utils import save_maya_file, get_root_dag
 from config import config
 
 
@@ -24,14 +24,14 @@ class PrublishWidget(PreviewWidget):
     def get_export_root_path(self):
         return config.get_export_root_path(create=True)
 
-    def export_shading_json(self):
+    def export_shading_json(self, asset_name):
         path = self.get_export_root_path()
-        export_shader_json(os.path.join(path, 'shader.json'))
+        export_shader_json(os.path.join(path, '{}.json'.format(asset_name)))
 
-    def export_shader_mb(self):
+    def export_shader_mb(self, asset_name):
         print 'export shaders.'
         path = self.get_export_root_path()
-        sg_path = os.path.join(path, 'shaders.mb')
+        sg_path = os.path.join(path, '{}.mb'.format(asset_name))
         export_shaders(sg_path)
 
     def to_publish(self):
@@ -45,14 +45,14 @@ class PrublishWidget(PreviewWidget):
                         print cb.isChecked()
                         print cb.objectName()
         if self.extend_pub_widget.checkBox_source_file.isChecked():
-            # TODO: get export path
             save_maya_file()
 
         # super(PrublishWidget, self).to_publish()
+        asset_name = get_root_dag()
         if self.extend_pub_widget.checkBox_export_json.isChecked():
-            self.export_shading_json()
+            self.export_shading_json(asset_name)
         if self.extend_pub_widget.checkBox_export_shaders.isChecked():
-            self.export_shader_mb()
+            self.export_shader_mb(asset_name)
 
 
 if __name__ == '__main__':

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import json
 import string
 import random
 from contextlib import contextmanager
@@ -19,16 +20,29 @@ def save_maya_file(export_path=None):
         os.makedirs(root_path)
     file_path.copyfile(export_source_path)
 
+
 def maya_version():
     return OpenMaya.MGlobal.mayaVersion()
+
 
 def get_time_range_in_slider():
     start_frame = pm.playbackOptions(minTime=True, query=True)
     end_frame = pm.playbackOptions(maxTime=True, query=True)
     return start_frame, end_frame
 
+
 def api_version():
     return OpenMaya.MGlobal.apiVersion()
+
+
+def get_root_dag():
+    """
+    Get asset name from root (oytline)
+    :return:
+    """
+    root_nodes = filter(lambda i: pm.nodeType(i.listRelatives()) == 'transform', pm.ls(assemblies=True, recursive=True))
+    assert len(root_nodes) == 1
+    return root_nodes[0]
 
 
 def random_text_generator(length):
@@ -70,3 +84,9 @@ def ensure_list(source):
     if not isinstance(source_list, list) and not isinstance(source_list, tuple):
         source_list = [source_list]
     return source_list
+
+
+def write_out_json(file_path, dict=None):
+    with open(file_path, "w") as f:
+        json.dump(dict, f)
+
