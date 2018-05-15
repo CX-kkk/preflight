@@ -90,3 +90,13 @@ def write_out_json(file_path, dict=None):
     with open(file_path, "w") as f:
         json.dump(dict, f)
 
+
+def get_reference_dict():
+    asset_dict = {}
+    for ref in pm.ls(rf=True):
+        asset_name = ref.referenceFile().getReferenceEdits()[0].split(':')[1].split('"')[0]
+        if asset_name not in asset_dict.keys():
+            asset_dict[asset_name] = {}
+        asset_dict[asset_name][ref.shortName()] = str(ref.referenceFile().path)
+    return asset_dict
+

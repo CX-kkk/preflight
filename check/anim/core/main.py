@@ -10,7 +10,7 @@ import pymel.core as pm
 from config import config
 from core.basci_alembic import ExportAlembic
 from core.general_alembic import batch_export_alembic
-from core.utils import save_maya_file, get_time_range_in_slider, write_out_json
+from core.utils import save_maya_file, get_time_range_in_slider, write_out_json, get_reference_dict
 from gui.main_pub_win import PreviewWidget
 
 
@@ -37,14 +37,14 @@ class PrublishWidget(PreviewWidget):
                                        'step': 0.5})
         abc_exporter.batchRun()
 
-    def get_reference_dict(self):
-        asset_dict = {}
-        for ref in pm.ls(rf=True):
-            asset_name = ref.referenceFile().getReferenceEdits()[0].split(':')[1].split('"')[0]
-            if asset_name not in asset_dict.keys():
-                asset_dict[asset_name] = {}
-            asset_dict[asset_name][ref.shortName()] = str(ref.referenceFile().path)
-        return asset_dict
+    # def get_reference_dict(self):
+    #     asset_dict = {}
+    #     for ref in pm.ls(rf=True):
+    #         asset_name = ref.referenceFile().getReferenceEdits()[0].split(':')[1].split('"')[0]
+    #         if asset_name not in asset_dict.keys():
+    #             asset_dict[asset_name] = {}
+    #         asset_dict[asset_name][ref.shortName()] = str(ref.referenceFile().path)
+    #     return asset_dict
 
     def to_publish(self):
         if self.extend_pub_widget.checkBox_preflight.isChecked():
@@ -64,7 +64,7 @@ class PrublishWidget(PreviewWidget):
             print 'Alembic caches done!'
 
         # write out json file for lgt import tool
-        asset_dict = self.get_reference_dict()
+        asset_dict = get_reference_dict()
         write_out_json(file_path=os.path.join(self.path, 'rigging_info.json'), dict=asset_dict)
 
 

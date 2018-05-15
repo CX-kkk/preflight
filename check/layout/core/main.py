@@ -9,7 +9,7 @@ from Qt import QtCore, QtWidgets, _loadUi, QtGui
 
 from gui.main_pub_win import PreviewWidget
 from gui import basic_gui
-from core.utils import save_maya_file, get_time_range_in_slider
+from core.utils import save_maya_file, get_time_range_in_slider, write_out_json, get_reference_dict
 from config import config
 from core.general_alembic import batch_export_alembic
 from core.basci_alembic import ExportAlembic
@@ -98,6 +98,10 @@ class PrublishWidget(PreviewWidget):
                 print 'Starting cache arnold...'
                 self.export_arnold_proxy(caches_dict['arnold'])
                 print 'Arnold proxy done!'
+
+        # write out json file for lgt import tool
+        asset_dict = get_reference_dict()
+        write_out_json(file_path=os.path.join(self.path, 'rigging_info.json'), dict=asset_dict)
 
 
 if __name__ == '__main__':
