@@ -11,6 +11,7 @@ from core.utils import save_maya_file, get_time_range_in_slider
 from gui.main_pub_win import PreviewWidget
 from gui import msg_box
 from config import config
+import export_camera
 
 
 class PrublishWidget(PreviewWidget):
@@ -71,21 +72,24 @@ class PrublishWidget(PreviewWidget):
         if self.extend_pub_widget.checkBox_source_file.isChecked():
             save_maya_file()
 
-        if self.extend_pub_widget.checkBox_export_camera.isChecked():
-            print 'export cams'
-            current_cam = self.extend_pub_widget.comboBox_camera.currentText()
-            if current_cam and current_cam != '------None------':
-                print current_cam
-            elif current_cam == '------None------':
-                msg_box.show_message_box('BFX Playblast Warning',
-                                         u'No available camera was found in current file.'
-                                         u'当前文件中没有可用相机')
-                return
         # super(PrublishWidget, self).to_publish()
         for cache_option in self.extend_pub_widget.widget_cache.children():
             if isinstance(cache_option, QtWidgets.QRadioButton):
                 if cache_option.isChecked():
                     self.export_cache(cache_option.objectName())
+
+        if self.extend_pub_widget.checkBox_export_camera.isChecked():
+            print 'export cams'
+            current_cam = self.extend_pub_widget.comboBox_camera.currentText()
+            if current_cam and current_cam != '------None------':
+                dup_cam = export_camera.copy_bake_camera(current_cam)
+                export_camera.export_cam_abc(dup_cam)
+                export_camera.delete_cam(dup_cam)
+            elif current_cam == '------None------':
+                msg_box.show_message_box('BFX Playblast Warning',
+                                         u'No available camera was found in current file.'
+                                         u'当前文件中没有可用相机')
+                return
 
 
 if __name__ == '__main__':
