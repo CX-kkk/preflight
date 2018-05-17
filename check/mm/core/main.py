@@ -69,7 +69,6 @@ class PrublishWidget(PreviewWidget):
                         print cb.isChecked()
                         print cb.objectName()
         if self.extend_pub_widget.checkBox_source_file.isChecked():
-            # TODO: get export path
             save_maya_file()
 
         if self.extend_pub_widget.checkBox_export_camera.isChecked():

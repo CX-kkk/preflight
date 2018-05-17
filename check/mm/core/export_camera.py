@@ -13,38 +13,33 @@ def export_camera(cam, camShape):
     function = 'render'
     parents = cmds.listRelatives(cam, parent=True, fullPath=True)
     # copy camera and cleanup children
-    dupCam = cmds.duplicate(cam,
-                            name=cam + '_baked',
-                            returnRootsOnly=True)[0]
-    childs = cmds.listRelatives(dupCam,
-                                children=True,
-                                typ='transform',
-                                fullPath=True)
+    dup_cam = cmds.duplicate(cam, name=cam + '_baked', returnRootsOnly=True)[0]
+    childs = cmds.listRelatives(dup_cam, children=True, typ='transform', fullPath=True)
     if childs:
         cmds.delete(childs)
     # unlock new camera
     for attr in keyables:
-        cmds.setAttr(dupCam + '.' + attr, lock=False)
+        cmds.setAttr(dup_cam + '.' + attr, lock=False)
     # parent attrs may also have been locked somehow...
     for attr in 'trs':
-        cmds.setAttr(dupCam + '.' + attr, lock=False)
+        cmds.setAttr(dup_cam + '.' + attr, lock=False)
     # unparent and cleanup pivots
     if parents:
-        dupCam = cmds.parent(dupCam, w=True)[0]
-    cmds.xform(dupCam, zeroTransformPivots=True)
-    cmds.makeIdentity(dupCam, apply=True, translate=True, rotate=True, scale=True)
+        dup_cam = cmds.parent(dup_cam, w=True)[0]
+    cmds.xform(dup_cam, zeroTransformPivots=True)
+    cmds.makeIdentity(dup_cam, apply=True, translate=True, rotate=True, scale=True)
     # contraint new camera to original one and set rotateOrder
-    garbages.extend(cmds.parentConstraint(cam, dupCam, maintainOffset=True))
-    # cmds.setAttr(dupCam + '.rotateOrder', roIndex)
-    # connect imagePlane to dupCam
+    garbages.extend(cmds.parentConstraint(cam, dup_cam, maintainOffset=True))
+    # cmds.setAttr(dup_cam + '.rotateOrder', roIndex)
+    # connect imagePlane to dup_cam
     imagePlane = cmds.imagePlane(cam, q=True, name=True)
     if imagePlane:
         imagePlane = imagePlane[0]
         cmds.imagePlane(imagePlane, detach=True, edit=True)
-        cmds.imagePlane(camera=dupCam, edit=True)
+        cmds.imagePlane(camera=dup_cam, edit=True)
     # copy focal animation if exist
     if cmds.copyKey(cam, at='fl'):
-        cmds.pasteKey(dupCam, at='fl')
+        cmds.pasteKey(dup_cam, at='fl')
     # cleanup old camera
     if function == 'layout':
         garbages.append(cam)
@@ -64,6 +59,7 @@ def export_camera(cam, camShape):
     for attr in keyables:
         cmds.setAttr(cam + '.' + attr, lock=False)
     # make sure the curves on camera continue on for motion blur
+    # TODO: set time range to (5, 40)
     cmds.bakeResults(cam, t=time_range)
     cmds.delete(cam, staticChannels=True)
     cmds.filterCurve(cam)
