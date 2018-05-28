@@ -91,6 +91,10 @@ class PrublishWidget(PreviewWidget):
                                          u'当前文件中没有可用相机')
                 return
 
+        # Open folder path and send published email
+        foleder_path = config.get_export_root_path(create=True)
+        super(PrublishWidget, self).to_publish(foleder_path)
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

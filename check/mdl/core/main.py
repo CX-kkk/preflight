@@ -77,6 +77,10 @@ class PrublishWidget(PreviewWidget):
                 if cache_option.isChecked():
                     self.export_cache(cache_option.objectName())
 
+        # Open folder path and send published email
+        foleder_path = config.get_export_root_path(create=True)
+        super(PrublishWidget, self).to_publish(foleder_path)
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

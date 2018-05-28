@@ -18,8 +18,6 @@ class PrublishWidget(PreviewWidget):
         # self.pub_widget.checkBox_source_file.setChecked(True)
         # self.pub_widget.checkBox_source_file.setText('Export Rigging file')
 
-
-
     def to_publish(self):
         if self.extend_pub_widget.checkBox_preflight.isChecked():
             print 'preflight'
@@ -33,7 +31,10 @@ class PrublishWidget(PreviewWidget):
         if self.extend_pub_widget.checkBox_source_file.isChecked():
             # TODO: get export path
             save_maya_file()
-        # super(PrublishWidget, self).to_publish()
+
+        # Open folder path and send published email
+        foleder_path = config.get_export_root_path(create=True)
+        super(PrublishWidget, self).to_publish(foleder_path)
 
 
 

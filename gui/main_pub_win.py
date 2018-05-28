@@ -4,6 +4,8 @@ import os
 import sys
 
 from Qt import QtCore, QtWidgets, _loadUi, QtGui
+from hz.toolkit import start
+import hz.email as email
 
 from core.utils import save_maya_file
 from extend_preflight_widget import PreflightWidget
@@ -43,6 +45,13 @@ class PreviewWidget(QtWidgets.QWidget):
     def init_connectiond(self):
         self.pushButton_publish.clicked.connect(self.to_publish)
         self.pushButton_cancle.clicked.connect(self.close)
+
+    def to_publish(self, foleder_path):
+        if self.checkBox_auto_open_file.isChecked():
+            # foleder_path = r'X:\pipelinernd_rnd-0000\_library\assets\environment\env_jojohome'
+            start(foleder_path)
+        if self.checkBox_auto_send_email.isChecked():
+            email.send_publish_email(foleder_path)
 
 
 

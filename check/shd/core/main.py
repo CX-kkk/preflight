@@ -53,6 +53,9 @@ class PrublishWidget(PreviewWidget):
             self.export_shading_json(asset_name)
         if self.extend_pub_widget.checkBox_export_shaders.isChecked():
             self.export_shader_mb(asset_name)
+        # Open folder path and send published email
+        foleder_path = self.get_export_root_path()
+        super(PrublishWidget, self).to_publish(foleder_path)
 
 
 if __name__ == '__main__':

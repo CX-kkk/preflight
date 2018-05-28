@@ -103,6 +103,10 @@ class PrublishWidget(PreviewWidget):
         asset_dict = get_reference_dict()
         write_out_json(file_path=os.path.join(self.path, 'rigging_info.json'), dict=asset_dict)
 
+        # Open folder path and send published email
+        foleder_path = config.get_export_root_path(create=True)
+        super(PrublishWidget, self).to_publish(foleder_path)
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
