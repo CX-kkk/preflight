@@ -25,7 +25,7 @@ class PreviewWidget(QtWidgets.QWidget):
         step_module = importlib.import_module('check.{}.gui.extend_pub_widget'.format(self.step))
         self.extend_pub_widget = step_module.ExtendPubWidget()
 
-        self.setWindowTitle('{} Publish Tool'.format(self.step.upper()))
+        self.setWindowTitle('{} Publish Tool'.format(self.step.lower()))
         self.init_layout()
         self.init_connectiond()
 
